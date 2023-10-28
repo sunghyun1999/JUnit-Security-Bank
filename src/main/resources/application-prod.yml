@@ -7,14 +7,14 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mariadb://${rds.hostname}:${rds.port}/${rds.db.name}?characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mariadb://svc.sel5.cloudtype.app:32477/recode?characterEncoding=UTF-8&serverTimezone=UTC
     driver-class-name: org.mariadb.jdbc.Driver
-    username: ${rds.username}
-    password: ${rds.password}
+    username: root
+    password: 1234
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     properties:
       '[hibernate.default_batch_fetch_size]': 100
 
