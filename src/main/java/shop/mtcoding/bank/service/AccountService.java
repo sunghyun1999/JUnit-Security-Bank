@@ -11,6 +11,7 @@ import shop.mtcoding.bank.dto.account.AccountReqDto;
 import shop.mtcoding.bank.dto.account.AccountRespDto;
 import shop.mtcoding.bank.handler.ex.CustomApiException;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -20,6 +21,15 @@ public class AccountService {
 
     private final UserRepository userRepository;
     private final AccountRepository accountRepository;
+
+    public AccountRespDto.AccountListRespDto 계좌목록보기_유저별(Long userId) {
+        User userPS = userRepository.findById(userId).orElseThrow(
+                () -> new CustomApiException("유저를 찾을 수 없습니다."));
+
+        // 유저의 모든 계좌 목록
+        List<Account> accountListPS = accountRepository.findByUser_id(userId);
+        return new AccountRespDto.AccountListRespDto(userPS, accountListPS);
+    }
 
     @Transactional
     public AccountRespDto.AccountSaveRespDto 계좌등록(AccountReqDto.AccountSaveReqDto accountSaveReqDto, Long userId) {
