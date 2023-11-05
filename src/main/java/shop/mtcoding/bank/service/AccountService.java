@@ -49,4 +49,17 @@ public class AccountService {
         // DTO 응답
         return new AccountRespDto.AccountSaveRespDto(accountPS);
     }
+
+    @Transactional
+    public void 계좌삭제(Long number, Long userId) {
+        // 1.계좌 확인
+        Account accountPS  = accountRepository.findByNumber(number).orElseThrow(
+                () -> new CustomApiException("계좌를 찾을 수 없습니다."));
+
+        // 2. 계좌 소유자 확인
+        accountPS.checkOwner(userId);
+
+        // 3. 계좌 삭제
+        accountRepository.deleteById(accountPS.getId());
+    }
 }
